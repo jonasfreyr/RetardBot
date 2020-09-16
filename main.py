@@ -33,7 +33,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.author.id in retards:
+    if message.author.mention in retards:
         await message.channel.send("Shut up retard!")
 
     await client.process_commands(message)
