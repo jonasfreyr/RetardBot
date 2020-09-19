@@ -11,10 +11,53 @@ async def on_ready():
     print("Retard ready")
 
 @client.command()
-async def addRetard(ctx, clientuser):
-    retards.append(clientuser)
+async def addRetard(ctx):
+    message = ctx.message
+    string = "Retards Added:\n"
 
-    await ctx.send(f"Retard {clientuser} added!")
+    for mention in retards:
+        if mention == ctx.author.mention:
+            await ctx.send("Nice try retard")
+            return
+
+    if client.user in message.mentions:
+        await ctx.send("Nice try retard")
+        return
+
+    for user in message.mentions:
+        retards.append(user.mention)
+        string += str(user.mention) + "\n"
+
+    await ctx.send(string)
+
+@client.command()
+async def removeRetard(ctx):
+    message = ctx.message
+    string = "Retards Removed:\n"
+
+    for mention in retards:
+        for user in message.mentions:
+            if mention == user.mention:
+                await ctx.send("Nice try retard")
+                return
+
+    for user in message.mentions:
+        retards.remove(user.mention)
+
+        string += str(user.mention) + "\n"
+
+    await ctx.send(string)
+
+@client.command()
+async def clearRetards(ctx):
+    global retards
+    for mention in retards:
+        if mention == ctx.author.mention:
+            await ctx.send("Nice try retard")
+            return
+
+    retards = []
+    await ctx.send("Retards cleared")
 
 @client.command()
 async def checkRetards(ctx):
