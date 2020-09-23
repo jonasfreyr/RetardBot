@@ -1,4 +1,5 @@
 import discord
+import json
 from discord.ext import commands
 from key import token_key
 
@@ -6,8 +7,20 @@ client = commands.Bot(command_prefix = '.')
 
 retards = []
 
+def saveRetards():
+    with open("retards.json", 'w') as file:
+        json.dump(retards, file)
+
+def loadRetards():
+    try:
+        with open("retards.json", 'r') as file:
+            retards = json.load(file)
+    except:
+        print("Failed to read retards.json")
+
 @client.event
 async def on_ready():
+    loadRetards()
     print("Retard ready")
 
 @client.command()
@@ -27,6 +40,8 @@ async def addRetard(ctx):
     for user in message.mentions:
         retards.append(user.mention)
         string += str(user.mention) + "\n"
+    
+    saveRetards()
 
     await ctx.send(string)
 
@@ -46,6 +61,8 @@ async def removeRetard(ctx):
 
         string += str(user.mention) + "\n"
 
+    saveRetards()
+
     await ctx.send(string)
 
 @client.command()
@@ -57,6 +74,8 @@ async def clearRetards(ctx):
             return
 
     retards = []
+    saveRetards()
+    
     await ctx.send("Retards cleared")
 
 @client.command()
