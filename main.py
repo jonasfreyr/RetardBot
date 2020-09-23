@@ -12,6 +12,7 @@ def saveRetards():
         json.dump(retards, file)
 
 def loadRetards():
+    global retards
     try:
         with open("retards.json", 'r') as file:
             retards = json.load(file)
