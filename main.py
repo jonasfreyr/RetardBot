@@ -38,6 +38,14 @@ async def addRetard(ctx):
         await ctx.send("Nice try retard")
         return
 
+    if message.mention_everyone:
+        for user in ctx.channel.members:
+            if user == client.user:
+                continue
+
+            retards.append(user.mention)
+            string += str(user.mention) + "\n"
+
     for user in message.mentions:
         retards.append(user.mention)
         string += str(user.mention) + "\n"
@@ -102,6 +110,6 @@ async def on_message(message):
     await client.process_commands(message)
 
 
-client.run(token_key)
+client.run(token)
 
 
