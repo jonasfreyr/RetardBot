@@ -1,7 +1,7 @@
 import discord
 import json
 from discord.ext import commands
-from config import token_key
+from config import token
 
 client = commands.Bot(command_prefix = '.')
 
