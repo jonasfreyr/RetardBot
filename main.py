@@ -1,7 +1,7 @@
 import discord
 import json
 from discord.ext import commands
-from config import token
+from config import token, approved_retards
 
 client = commands.Bot(command_prefix = '.')
 
@@ -35,6 +35,10 @@ async def addRetard(ctx):
             return
 
     if client.user in message.mentions:
+        await ctx.send("Nice try retard")
+        return
+
+    if any(lambda mention: mention in message.mentions, approved_retards):
         await ctx.send("Nice try retard")
         return
 
