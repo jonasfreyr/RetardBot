@@ -1,7 +1,7 @@
 import discord
 import json
 from discord.ext import commands
-from config import token, approved_retards
+from config import token, non_retards
 
 client = commands.Bot(command_prefix = '.')
 
@@ -29,6 +29,8 @@ async def addRetard(ctx):
     message = ctx.message
     string = "Retards Added:\n"
 
+    print(message.mentions)
+
     for mention in retards:
         if mention == ctx.author.mention:
             await ctx.send("Nice try retard")
@@ -38,13 +40,15 @@ async def addRetard(ctx):
         await ctx.send("Nice try retard")
         return
 
-    if any(lambda mention: mention in message.mentions, approved_retards):
+    if any(any(mention == msg_mention.mention for msg_mention in message.mentions) for mention in non_retards):
         await ctx.send("Nice try retard")
         return
 
     if message.mention_everyone:
         for user in ctx.channel.members:
             if user == client.user:
+                continue
+            if user.mention in non_retards:
                 continue
 
             retards.append(user.mention)
