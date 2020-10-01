@@ -114,6 +114,7 @@ async def on_message(message):
 
     if message.author.mention in retards:
         await message.channel.send("Shut up retard!")
+        await message.delete()
 
     await client.process_commands(message)
 
